@@ -18,7 +18,7 @@ private const val TAG = "FlickrFetchr"
 interface FlickrApi {
     @GET(
         "services/rest/?method=flickr.interestingness.getList" +
-                "&api_key=вашApiКлюч" +
+                "&api_key=c19cc8f4173598aa3908927fd6adbe88" +
                 "&format=json" +
                 "&nojsoncallback=1" +
                 "&extras=url_s"
