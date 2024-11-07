@@ -32,6 +32,14 @@ class PhotoGalleryFragment : Fragment() {
     private lateinit var photoRecyclerView: RecyclerView
     private lateinit var thumbnailDownloader: ThumbnailDownloader<PhotoHolder>
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewLifecycleOwner.lifecycle.removeObserver(
+            thumbnailDownloader.viewLifecycleObserver
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,7 +83,7 @@ class PhotoGalleryFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         lifecycle.removeObserver(
-            thumbnailDownloader
+            thumbnailDownloader.fragmentLifecycleObserver
         )
     }
 
@@ -100,11 +108,6 @@ class PhotoGalleryFragment : Fragment() {
         override fun getItemCount(): Int = galleryItems.size
         override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
             val galleryItem = galleryItems[position]
-            val placeholder: Drawable = ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.bill_up_close
-            ) ?: ColorDrawable()
-            holder.bindDrawable(placeholder)
             thumbnailDownloader.queueThumbnail(holder, galleryItem.url)
         }
     }

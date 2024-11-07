@@ -21,6 +21,11 @@ class ThumbnailDownloader<in T>(
     private val onThumbnailDownloaded: (T, Bitmap) -> Unit
 ) : HandlerThread(TAG) {
 
+    private var hasQuit = false
+    private lateinit var requestHandler: Handler
+    private val requestMap = ConcurrentHashMap<T, String>()
+    private val flickrFetchr = FlickrFetchr()
+
     val fragmentLifecycleObserver: LifecycleObserver =
         object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -46,16 +51,13 @@ class ThumbnailDownloader<in T>(
             }
         }
 
-    private var hasQuit = false
-    private lateinit var requestHandler: Handler
-    private val requestMap = ConcurrentHashMap<T, String>()
-    private val flickrFetchr = FlickrFetchr()
 
     override fun quit(): Boolean {
         hasQuit = true
         return super.quit()
     }
 
+    @Suppress("UNCHECKED_CAST")
     @SuppressLint("HandlerLeak")
     override fun onLooperPrepared() {
         requestHandler = object : Handler(looper) {
