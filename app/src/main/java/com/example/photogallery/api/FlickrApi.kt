@@ -33,14 +33,6 @@ interface FlickrApi {
 
     @GET
     fun fetchUrlBytes(@Url url: String): Call<ResponseBody>
-
-    @WorkerThread
-    fun fetchPhoto(url: String): Bitmap? {
-        val response: Response<ResponseBody> = flickrApi.fetchUrlBytes(url).execute()
-        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
-        Log.i(TAG, "Decoded bitmap=$bitmap from Response=$response")
-        return bitmap
-    }
 }
 
 class FlickrFetchr {
@@ -76,5 +68,13 @@ class FlickrFetchr {
             }
         })
         return responseLiveData
+    }
+
+    @WorkerThread
+    fun fetchPhoto(url: String): Bitmap? {
+        val response: Response<ResponseBody> = flickrApi.fetchUrlBytes(url).execute()
+        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
+        Log.i(TAG, "Decoded bitmap=$bitmap from Response=$response")
+        return bitmap
     }
 }
