@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.photogallery"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.photogallery"
@@ -36,16 +36,19 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation("androidx.recyclerview:recyclerview:1.0.0")
-    implementation("com.squareup.retrofit2:retrofit:2.5.0")
-    implementation("com.squareup.retrofit2:converter-scalars:2.5.0")
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.retrofit)
+    implementation(libs.converter.scalars)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    configurations.all {
+        resolutionStrategy.force("com.squareup.okhttp3:okhttp:4.9.3")
+    }
 }
