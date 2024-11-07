@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("com.squareup.retrofit2:retrofit:2.5.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.5.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
