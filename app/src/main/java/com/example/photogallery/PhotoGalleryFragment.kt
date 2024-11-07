@@ -1,5 +1,6 @@
 package com.example.photogallery
 
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -22,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.logging.Handler
 
 private const val TAG = "PhotoGalleryFragment"
 
@@ -38,7 +40,12 @@ class PhotoGalleryFragment : Fragment() {
         photoGalleryViewModel =
             ViewModelProviders.of(this).get(PhotoGalleryViewModel::class.java)
 
-        thumbnailDownloader = ThumbnailDownloader()
+        val responseHandler = android.os.Handler()
+        thumbnailDownloader =
+            ThumbnailDownloader(responseHandler) { photoHolder, bitmap ->
+                val drawable = BitmapDrawable(resources, bitmap)
+                photoHolder.bindDrawable(drawable)
+            }
         lifecycle.addObserver(thumbnailDownloader)
     }
 
