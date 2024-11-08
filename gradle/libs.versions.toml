@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.0"
+androidWorkRuntime = "1.0.1"
 androidxCoreKtx = "1.0.0"
 androidxLifecycleLivedataKtx = "2.5.1"
 converterGson = "2.4.0"
@@ -19,6 +20,7 @@ recyclerview = "1.3.2"
 retrofit = "2.9.0"
 
 [libraries]
+android-work-runtime = { module = "android.arch.work:work-runtime", version.ref = "androidWorkRuntime" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-ktx-v100 = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
 androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }

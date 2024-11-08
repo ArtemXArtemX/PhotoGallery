@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.core.ktx.v100)
     implementation(libs.gson)
+    implementation(libs.android.work.runtime)
     implementation(libs.converter.gson)
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.converter.scalars)
