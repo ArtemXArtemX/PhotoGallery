@@ -13,6 +13,5 @@ object QueryPreferences {
         PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
             .putString(PREF_SEARCH_QUERY, query)
-            .apply()
     }
 }
