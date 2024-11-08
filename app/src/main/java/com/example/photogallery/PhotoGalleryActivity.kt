@@ -1,6 +1,8 @@
 package com.example.photogallery
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -31,5 +33,11 @@ class PhotoGalleryActivity : AppCompatActivity() {
                 insets
             }
         } ?: Log.e("PhotoGalleryActivity", "View с ID 'main' не найден")
+    }
+
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, PhotoGalleryActivity::class.java)
+        }
     }
 }

@@ -3,6 +3,7 @@ agp = "8.6.0"
 androidWorkRuntime = "1.0.1"
 androidxCoreKtx = "1.0.0"
 androidxLifecycleLivedataKtx = "2.5.1"
+androidxWorkRuntimeKtx = "2.8.0"
 converterGson = "2.4.0"
 gson = "2.10.1"
 kotlin = "1.9.0"
@@ -31,6 +32,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntimeKtx" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+androidx-work-runtime-ktx-v280 = { module = "androidx.work:work-runtime-ktx", version.ref = "androidxWorkRuntimeKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

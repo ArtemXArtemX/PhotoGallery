@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
-import androidx.constraintlayout.widget.Constraints
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -22,6 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ExistingPeriodicWorkPolicy
 import com.bignerdranch.android.photogallery.PhotoGalleryViewModel
 import com.example.photogallery.api.FlickrFetchr
 import retrofit2.Call
@@ -32,10 +32,15 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.logging.Handler
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.example.photogallery.PollWorker
+import java.util.concurrent.TimeUnit
+import androidx.work.Constraints
+
 
 private const val TAG = "PhotoGalleryFragment"
+private const val POLL_WORK = "POLL_WORK"
 
 class PhotoGalleryFragment : Fragment() {
     private lateinit var photoGalleryViewModel: PhotoGalleryViewModel
@@ -66,17 +71,6 @@ class PhotoGalleryFragment : Fragment() {
                 photoHolder.bindDrawable(drawable)
             }
         lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
-
-        val constraints = androidx.work.Constraints.Builder()
-            .setRequiredNetworkType(NetworkType
-                .UNMETERED)
-            .build()
-        val workRequest = OneTimeWorkRequest
-            .Builder(PollWorker::class.java)
-            .setConstraints(constraints)
-            .build()
-        WorkManager.getInstance()
-            .enqueue(workRequest)
     }
 
     override fun onCreateView(
@@ -137,12 +131,42 @@ class PhotoGalleryFragment : Fragment() {
                 searchView.setQuery(photoGalleryViewModel.searchTerm, false)
             }
         }
+        val toggleItem = menu.findItem(R.id.menu_item_toggle_polling)
+        val isPolling = QueryPreferences.isPolling(requireContext())
+        val toggleItemTitle = if (isPolling) {
+            R.string.stop_polling
+        } else {
+            R.string.start_polling
+        }
+        toggleItem.setTitle(toggleItemTitle)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_item_clear -> {
-                photoGalleryViewModel.fetchPhotos("")
+            R.id.menu_item_toggle_polling -> {
+                val isPolling = QueryPreferences.isPolling(requireContext())
+                if (isPolling) {
+                    WorkManager.getInstance().cancelUniqueWork(POLL_WORK)
+                    QueryPreferences.setPolling(requireContext(), false)
+                } else {
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.UNMETERED)
+                        .build()
+
+                    val periodicRequest = PeriodicWorkRequest
+                        .Builder(PollWorker::class.java, 15, TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+                        .build()
+
+                    WorkManager.getInstance().enqueueUniquePeriodicWork(
+                        POLL_WORK,
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        periodicRequest
+                    )
+
+                    QueryPreferences.setPolling(requireContext(), true)
+                }
+                activity?.invalidateOptionsMenu()
                 true
             }
             else -> super.onOptionsItemSelected(item)
