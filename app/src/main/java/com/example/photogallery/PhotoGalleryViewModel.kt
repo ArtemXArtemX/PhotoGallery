@@ -1,25 +1,23 @@
-package com.example.photogallery
+package com.bignerdranch.android.photogallery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
+import com.example.photogallery.GalleryItem
 import com.example.photogallery.api.FlickrFetchr
 
 class PhotoGalleryViewModel : ViewModel() {
     val galleryItemLiveData: LiveData<List<GalleryItem>>
-
     private val flickrFetchr = FlickrFetchr()
     private val mutableSearchTerm = MutableLiveData<String>()
-
     init {
         mutableSearchTerm.value = "planets"
-
         galleryItemLiveData =
-            Transformations.switchMap(mutableSearchTerm) { searchTerm ->
-            flickrFetchr.searchPhotos(searchTerm)
-        }
+            mutableSearchTerm.switchMap {searchTerm ->
+                flickrFetchr.searchPhotos(searchTerm)
+            }
     }
-
     fun fetchPhotos(query: String = "") {
         mutableSearchTerm.value = query
     }

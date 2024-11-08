@@ -43,6 +43,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.retrofit)
+    implementation(libs.androidx.lifecycle.livedata.ktx.v251)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     implementation(libs.gson)
     implementation(libs.converter.gson)
     implementation(libs.androidx.lifecycle.extensions)
