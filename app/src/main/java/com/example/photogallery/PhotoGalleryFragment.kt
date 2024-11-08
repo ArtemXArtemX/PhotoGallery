@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -44,6 +46,7 @@ class PhotoGalleryFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         retainInstance = true
+        setHasOptionsMenu(true)
 
         photoGalleryViewModel =
             ViewModelProviders.of(this).get(PhotoGalleryViewModel::class.java)
@@ -85,6 +88,11 @@ class PhotoGalleryFragment : Fragment() {
         lifecycle.removeObserver(
             thumbnailDownloader.fragmentLifecycleObserver
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_photo_gallery, menu)
     }
 
     private class PhotoHolder(private val itemImageView: ImageView)
