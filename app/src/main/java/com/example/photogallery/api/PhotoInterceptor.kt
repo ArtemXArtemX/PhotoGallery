@@ -3,7 +3,7 @@ package com.example.photogallery.api
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
-import retrofit2.Response
+import okhttp3.Response
 
 private const val API_KEY = "c19cc8f4173598aa3908927fd6adbe88"
 class PhotoInterceptor : Interceptor {
