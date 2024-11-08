@@ -10,6 +10,7 @@ import com.example.photogallery.GalleryItem
 import com.example.photogallery.QueryPreferences
 import com.example.photogallery.api.FlickrFetchr
 
+
 class PhotoGalleryViewModel(private val app: Application) : AndroidViewModel(app) {
     val galleryItemLiveData: LiveData<List<GalleryItem>>
     private val flickrFetchr = FlickrFetchr()
